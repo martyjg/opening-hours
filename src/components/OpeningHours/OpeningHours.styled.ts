@@ -24,7 +24,7 @@ const Heading = styled.h1`
 const ListItem = styled.li`
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid var(--typography-inactive);
+  border-bottom: 1px solid var(--divider-default);
   text-transform: capitalize;
   padding: 0.4rem 0;
   &:first-child {
@@ -39,7 +39,7 @@ interface TextProps {
 const Text = styled.p<TextProps>`
   text-align: right;
   max-width: 65%;
-  color: ${props => props.inactive ? 'cyan' : ''}
+  color: ${props => props.inactive ? 'var(--typography-inactive)' : ''}
 `
 
 export {
