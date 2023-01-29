@@ -65,8 +65,6 @@ const openingHours: Array<ReadableDay> = weeklyOpeningHours.map(
   }
 );
 
-console.log(openingHours);
-
 const OpeningHours = () => {
   return (
     <Container>
