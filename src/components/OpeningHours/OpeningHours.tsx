@@ -1,4 +1,5 @@
 import data from '../../data.json';
+import { Container, Card, Heading } from './OpeningHours.styled';
 
 // TODO:
 // Set day indicator
@@ -68,18 +69,23 @@ console.log(openingHours);
 
 const OpeningHours = () => {
   return (
-    <ol>
-      {openingHours.map((item) => {
-        return (
-          <li key={item.day}>
-            <span>{item.day}</span>
-            {item.readableOpeningHours?.length > 0
-              ? item.readableOpeningHours.join(', ')
-              : 'Closed'}
-          </li>
-        );
-      })}
-    </ol>
+    <Container>
+      <Card>
+        <Heading>Opening Hours</Heading>
+        <ol>
+          {openingHours.map((item) => {
+            return (
+              <li key={item.day}>
+                <span>{item.day}</span>
+                {item.readableOpeningHours?.length > 0
+                  ? item.readableOpeningHours.join(', ')
+                  : 'Closed'}
+              </li>
+            );
+          })}
+        </ol>
+      </Card>
+    </Container>
   );
 };
 
