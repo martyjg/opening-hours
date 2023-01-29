@@ -1,5 +1,7 @@
+import OpeningHours from './components/OpeningHours/OpeningHours';
+
 function App() {
-  return <>Hello</>;
+  return <OpeningHours />;
 }
 
 export default App;
