@@ -1,12 +1,6 @@
 import data from '../../data.json';
-import {
-  Container,
-  Card,
-  Heading,
-  ListItem,
-  Text,
-} from './OpeningHours.styled';
-import Time from '../Time/Time';
+import { Container, Card, Heading } from './OpeningHours.styled';
+import Schedule from '../Schedule/Schedule';
 
 // TODO:
 // Set day indicator
@@ -17,7 +11,7 @@ interface Clopening {
   value: number;
 }
 
-interface Time {
+export interface TimeInterface {
   time: string;
   twelveHourClock: string;
 }
@@ -26,8 +20,8 @@ interface Day {
   day: string;
   clopenings: Array<Clopening>;
 }
-interface ReadableDay extends Day {
-  readableOpeningHours: Array<Time>;
+export interface ReadableDayInterface extends Day {
+  readableOpeningHours: Array<TimeInterface>;
 }
 
 export const convertSecondsToHours = (value: number) => value / 60 / 60;
@@ -82,7 +76,7 @@ const weeklyOpeningHours: Array<Day> = data
 
 weeklyOpeningHours.forEach(moveLateClosings);
 
-const openingHours: Array<ReadableDay> = weeklyOpeningHours
+const openingHours: Array<ReadableDayInterface> = weeklyOpeningHours
   ? weeklyOpeningHours.map((dailyOpeningHours: Day) => {
       return {
         readableOpeningHours: buildFormattedOpenHours(
@@ -98,40 +92,7 @@ const OpeningHours = () => {
     <Container>
       <Card>
         <Heading>Opening Hours</Heading>
-        <ol>
-          {openingHours.map((item) => {
-            return (
-              <ListItem key={item.day}>
-                <span>{item.day}</span>
-                {item.readableOpeningHours?.length > 0 ? (
-                  <Text>
-                    {item.readableOpeningHours.map(
-                      (openingHour: Time, index) => {
-                        if (index % 2 === 0) {
-                          return (
-                            <>
-                              {index > 1 ? ', ' : ''}
-                              <Time {...openingHour} />
-                            </>
-                          );
-                        } else {
-                          return (
-                            <>
-                              &nbsp;-&nbsp;
-                              <Time {...openingHour} />
-                            </>
-                          );
-                        }
-                      }
-                    )}
-                  </Text>
-                ) : (
-                  <Text inactive>Closed</Text>
-                )}
-              </ListItem>
-            );
-          })}
-        </ol>
+        <Schedule openingHours={openingHours} />
       </Card>
     </Container>
   );
