@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { SIZES } from '../../styles/variables'
 
 const Container = styled.div`
   min-height: 100vh;
@@ -14,7 +15,7 @@ const Card = styled.div`
 `
 
 const Heading = styled.h1`
-  font-size: 2rem;
+  font-size: ${SIZES.xl};
 `
 
 export {
