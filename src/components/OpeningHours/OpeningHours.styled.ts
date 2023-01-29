@@ -32,9 +32,14 @@ const ListItem = styled.li`
   }
 `
 
-const Text = styled.p`
+interface TextProps {
+  inactive?: boolean;
+} 
+
+const Text = styled.p<TextProps>`
   text-align: right;
   max-width: 65%;
+  color: ${props => props.inactive ? 'cyan' : ''}
 `
 
 export {

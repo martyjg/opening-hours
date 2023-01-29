@@ -6,6 +6,7 @@ import {
   ListItem,
   Text,
 } from './OpeningHours.styled';
+import Time from '../Time/Time';
 
 // TODO:
 // Set day indicator
@@ -15,20 +16,32 @@ interface Clopening {
   type: string;
   value: number;
 }
-interface Day {
-  day: string;
-  clopenings: Array<Clopening | undefined>;
+
+interface Time {
+  time: string;
+  twelveHourClock: string;
 }
 
+interface Day {
+  day: string;
+  clopenings: Array<Clopening>;
+}
 interface ReadableDay extends Day {
-  readableOpeningHours: Array<string>;
+  readableOpeningHours: Array<Time>;
 }
 
 export const convertSecondsToHours = (value: number) => value / 60 / 60;
 
 const convertDecimalToMinutes = (value: number) => value * 10 * 6;
 
-export const convertTwentyFourToTwelveHour = (value: number) => {
+const buildTwentyFourTime = (value: number) => {
+  let hour = Math.trunc(value);
+  const decimal = value - hour;
+  const minutes = convertDecimalToMinutes(decimal);
+  return `${hour}:${minutes ? `${minutes}` : '00'}`;
+};
+
+export const buildTwelveHourTime = (value: number) => {
   let clock = 'AM';
   let hour = Math.trunc(value);
   const decimal = value - hour;
@@ -43,50 +56,42 @@ export const convertTwentyFourToTwelveHour = (value: number) => {
 const moveLateClosings = (item: Day, index: number, array: Array<Day>) => {
   if (item.clopenings?.[0]?.type === 'close') {
     array[index - 1]
-      ? array[index - 1]['clopenings'].push(item.clopenings.shift())
-      : array[array.length - 1]['clopenings'].push(item.clopenings.shift());
+      ? array[index - 1]['clopenings'].push(item.clopenings.shift()!)
+      : array[array.length - 1]['clopenings'].push(item.clopenings.shift()!);
   }
 };
 
-const buildReadableOpenHours = (clopenings: Array<Clopening | undefined>) => {
-  let openings: Array<string> = [];
-  let readableOpeningHours = '';
-  openings = clopenings.reduce((acc: Array<string>, clopening) => {
-    const value = clopening
-      ? convertTwentyFourToTwelveHour(convertSecondsToHours(clopening.value))
-      : 0;
-    if (clopening?.type === 'open') {
-      readableOpeningHours += value;
-    }
-    if (clopening?.type === 'close') {
-      readableOpeningHours += `\u00A0-\u00A0${value}`;
-      acc.push(readableOpeningHours);
-      readableOpeningHours = '';
-    }
-    return acc;
-  }, []);
-  return openings;
+const buildFormattedOpenHours = (clopenings: Array<Clopening>) => {
+  return clopenings?.map((clopening: Clopening) => {
+    const timeInHours = convertSecondsToHours(clopening.value);
+    return {
+      time: buildTwentyFourTime(timeInHours),
+      twelveHourClock: buildTwelveHourTime(timeInHours),
+    };
+  });
 };
 
-const weeklyOpeningHours: Array<Day> = Object.entries(data).map(
-  (dailyOpeningHours) => ({
-    day: dailyOpeningHours[0],
-    clopenings: dailyOpeningHours[1],
-  })
-);
+const weeklyOpeningHours: Array<Day> = data
+  ? Object.entries(data).map((dayOpeningHoursPairs) => {
+      return {
+        day: dayOpeningHoursPairs[0],
+        clopenings: dayOpeningHoursPairs[1],
+      };
+    })
+  : [];
 
 weeklyOpeningHours.forEach(moveLateClosings);
 
-const openingHours: Array<ReadableDay> = weeklyOpeningHours.map(
-  (dailyOpeningHours: Day) => {
-    return {
-      readableOpeningHours: buildReadableOpenHours(
-        dailyOpeningHours.clopenings
-      ),
-      ...dailyOpeningHours,
-    };
-  }
-);
+const openingHours: Array<ReadableDay> = weeklyOpeningHours
+  ? weeklyOpeningHours.map((dailyOpeningHours: Day) => {
+      return {
+        readableOpeningHours: buildFormattedOpenHours(
+          dailyOpeningHours.clopenings
+        ),
+        ...dailyOpeningHours,
+      };
+    })
+  : [];
 
 const OpeningHours = () => {
   return (
@@ -98,11 +103,31 @@ const OpeningHours = () => {
             return (
               <ListItem key={item.day}>
                 <span>{item.day}</span>
-                <Text>
-                  {item.readableOpeningHours?.length > 0
-                    ? item.readableOpeningHours.join(', ')
-                    : 'Closed'}
-                </Text>
+                {item.readableOpeningHours?.length > 0 ? (
+                  <Text>
+                    {item.readableOpeningHours.map(
+                      (openingHour: Time, index) => {
+                        if (index % 2 === 0) {
+                          return (
+                            <>
+                              {index > 1 ? ', ' : ''}
+                              <Time {...openingHour} />
+                            </>
+                          );
+                        } else {
+                          return (
+                            <>
+                              &nbsp;-&nbsp;
+                              <Time {...openingHour} />
+                            </>
+                          );
+                        }
+                      }
+                    )}
+                  </Text>
+                ) : (
+                  <Text inactive>Closed</Text>
+                )}
               </ListItem>
             );
           })}

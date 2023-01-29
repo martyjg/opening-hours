@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { convertSecondsToHours, convertTwentyFourToTwelveHour } from './OpeningHours'
+import { convertSecondsToHours, buildTwelveHourTime } from './OpeningHours'
 
 describe('The seconds to hours converter', () => {
   test('seconds are converted to hours', () => {
@@ -17,11 +17,11 @@ describe('The seconds to hours converter', () => {
   })
 })
 
-describe('The 24 hours to 12 hours format converter', () => {
+describe('build a twelve hour time from twenty four hours with decimal', () => {
   test('seconds are converted to hours', () => {
-    // const input = 
-    // const expected = 2
-    // const actual = convertSecondsToHours(input)
-    // expect(actual).toEqual(expected)
+    const input = 3.25
+    const expected = '3:15\u00A0AM'
+    const actual = buildTwelveHourTime(input)
+    expect(actual).toEqual(expected)
   })
 })
