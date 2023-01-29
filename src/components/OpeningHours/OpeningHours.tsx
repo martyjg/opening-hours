@@ -1,5 +1,11 @@
 import data from '../../data.json';
-import { Container, Card, Heading, ListItem } from './OpeningHours.styled';
+import {
+  Container,
+  Card,
+  Heading,
+  ListItem,
+  Text,
+} from './OpeningHours.styled';
 
 // TODO:
 // Set day indicator
@@ -22,7 +28,7 @@ export const convertSecondsToHours = (value: number) => value / 60 / 60;
 
 const convertDecimalToMinutes = (value: number) => value * 10 * 6;
 
-const convertTwentyFourToTwelveHour = (value: number) => {
+export const convertTwentyFourToTwelveHour = (value: number) => {
   let clock = 'AM';
   let hour = Math.trunc(value);
   const decimal = value - hour;
@@ -31,7 +37,7 @@ const convertTwentyFourToTwelveHour = (value: number) => {
     hour = hour % 12;
     clock = 'PM';
   }
-  return `${hour}${minutes ? `:${minutes}` : ''} ${clock}`;
+  return `${hour}${minutes ? `:${minutes}` : ''}\u00A0${clock}`;
 };
 
 const moveLateClosings = (item: Day, index: number, array: Array<Day>) => {
@@ -53,7 +59,7 @@ const buildReadableOpenHours = (clopenings: Array<Clopening | undefined>) => {
       readableOpeningHours += value;
     }
     if (clopening?.type === 'close') {
-      readableOpeningHours += ` - ${value}`;
+      readableOpeningHours += `\u00A0-\u00A0${value}`;
       acc.push(readableOpeningHours);
       readableOpeningHours = '';
     }
@@ -92,9 +98,11 @@ const OpeningHours = () => {
             return (
               <ListItem key={item.day}>
                 <span>{item.day}</span>
-                {item.readableOpeningHours?.length > 0
-                  ? item.readableOpeningHours.join(', ')
-                  : 'Closed'}
+                <Text>
+                  {item.readableOpeningHours?.length > 0
+                    ? item.readableOpeningHours.join(', ')
+                    : 'Closed'}
+                </Text>
               </ListItem>
             );
           })}

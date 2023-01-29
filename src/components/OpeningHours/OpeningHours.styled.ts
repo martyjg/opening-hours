@@ -32,9 +32,15 @@ const ListItem = styled.li`
   }
 `
 
+const Text = styled.p`
+  text-align: right;
+  max-width: 65%;
+`
+
 export {
   Container,
   Card,
   Heading,
   ListItem,
+  Text,
 }
