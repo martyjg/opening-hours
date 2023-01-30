@@ -1,9 +1,13 @@
 import data from '../../data.json';
-import { Container, Card, Heading } from './OpeningHours.styled';
+import {
+  Container,
+  Card,
+  Heading,
+  ExtendedClockIcon,
+} from './OpeningHours.styled';
 import Schedule from '../Schedule/Schedule';
 
 // TODO:
-// Set day indicator
 // Do an opening hours schema
 
 interface Clopening {
@@ -91,7 +95,10 @@ const OpeningHours = () => {
   return (
     <Container>
       <Card>
-        <Heading>Opening Hours</Heading>
+        <Heading>
+          <ExtendedClockIcon />
+          Opening Hours
+        </Heading>
         <Schedule openingHours={openingHours} />
       </Card>
     </Container>

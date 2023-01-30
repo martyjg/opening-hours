@@ -4,15 +4,13 @@ import {
 } from '../OpeningHours/OpeningHours';
 import { ListItem, Text } from './Schedule.styled';
 import Time from '../Time/Time';
-import HighlightText from '../HighlightText/HighLightText';
+import HighlightText from '../HighlightText/HighlightText';
 
 type ScheduleProps = {
   openingHours: Array<ReadableDayInterface>;
 };
 
-const adjustDayIndex = (dayIndex: number) => {
-  return dayIndex ? dayIndex - 1 : 6;
-};
+const adjustDayIndex = (index: number) => (index ? index - 1 : 6);
 
 const Schedule = ({ openingHours }: ScheduleProps) => {
   const dayIndex = new Date().getDay();
