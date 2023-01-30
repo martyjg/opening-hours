@@ -26,6 +26,7 @@ const Heading = styled.h1`
 
 const ExtendedClockIcon = styled(ClockIcon)`
   margin-right: 0.75rem;
+  color: var(--typography-inactive);
 `;
 
 export {

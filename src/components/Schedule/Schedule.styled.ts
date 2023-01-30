@@ -11,17 +11,23 @@ const ListItem = styled.li`
   }
 `
 
-interface TextProps {
+const DayText = styled.p`
+  font-weight: 700;
+`
+
+interface TimetextProps {
   inactive?: boolean;
 } 
 
-const Text = styled.p<TextProps>`
+const TimeText = styled.p<TimetextProps>`
   text-align: right;
   max-width: 50%;
+  font-weight: 500;
   color: ${props => props.inactive ? 'var(--typography-inactive)' : ''}
 `
 
 export {
   ListItem,
-  Text,
+  DayText,
+  TimeText,
 }
