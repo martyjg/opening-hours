@@ -2,7 +2,7 @@ import {
   ReadableDayInterface,
   TimeInterface,
 } from '../OpeningHours/OpeningHours';
-import { ListItem, DayText, TimeText } from './Schedule.styled';
+import * as Styled from './Schedule.styled';
 import Time from '../Time/Time';
 import HighlightText from '../HighlightText/HighlightText';
 
@@ -20,14 +20,14 @@ const Schedule = ({ openingHours }: ScheduleProps) => {
     <ol>
       {openingHours.map((item: ReadableDayInterface, index: number) => {
         return (
-          <ListItem key={item.day}>
-            <DayText>
+          <Styled.ListItem key={item.day}>
+            <Styled.DayText>
               {item.day}
               {index === todayIndex && <HighlightText>Today</HighlightText>}
-            </DayText>
-            {item.readableOpeningHours?.length > 0 ? (
-              <TimeText>
-                {item.readableOpeningHours.map(
+            </Styled.DayText>
+            {item.openingHours?.length > 0 ? (
+              <Styled.TimeText>
+                {item.openingHours.map(
                   (openingHour: TimeInterface, index: number) => {
                     return (
                       <span key={index}>
@@ -41,11 +41,11 @@ const Schedule = ({ openingHours }: ScheduleProps) => {
                     );
                   }
                 )}
-              </TimeText>
+              </Styled.TimeText>
             ) : (
-              <TimeText inactive>Closed</TimeText>
+              <Styled.TimeText inactive>Closed</Styled.TimeText>
             )}
-          </ListItem>
+          </Styled.ListItem>
         );
       })}
     </ol>

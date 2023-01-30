@@ -1,11 +1,11 @@
-import { Text } from './HighlightText.styled';
+import * as Styled from './HighlightText.styled';
 
 type Props = {
   children: React.ReactNode;
 };
 
 const HighlightText = ({ children }: Props) => {
-  return <Text>{children}</Text>;
+  return <Styled.Text>{children}</Styled.Text>;
 };
 
 export default HighlightText;

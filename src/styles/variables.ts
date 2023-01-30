@@ -9,20 +9,20 @@ export const SPACING_TOKENS = {
   LOOSE: '1.5rem',
   LOOSER: '2rem',
   LOOSEST: '3rem',
-}
+};
 
 export const SIZES = {
   s: '0.75rem',
   m: '1rem',
   l: '1.25rem',
   xl: '1.375rem',
-}
+};
 
 export const LINE_HEIGHTS = {
   TIGHTER: '1.25',
   TIGHT: '1.333',
   BASE: '1.375',
-}
+};
 
 const variables = css`
   :root {

@@ -1,31 +1,24 @@
 import data from '../../data.json';
-import {
-  Container,
-  Card,
-  Heading,
-  ExtendedClockIcon,
-} from './OpeningHours.styled';
+import * as Styled from './OpeningHours.styled';
 import Schedule from '../Schedule/Schedule';
 
 // TODO:
 // Do an opening hours schema
+// Write more tests
 
-interface Clopening {
+interface OpeningValue {
   type: string;
   value: number;
 }
 
-export interface TimeInterface {
+interface OpeningTime extends OpeningValue {
   time: string;
   twelveHourClock: string;
 }
 
 interface Day {
   day: string;
-  clopenings: Array<Clopening>;
-}
-export interface ReadableDayInterface extends Day {
-  readableOpeningHours: Array<TimeInterface>;
+  openingHours: Array<OpeningValue | OpeningTime>;
 }
 
 export const convertSecondsToHours = (value: number) => value / 60 / 60;
@@ -52,56 +45,50 @@ export const buildTwelveHourTime = (value: number) => {
 };
 
 const moveLateClosings = (item: Day, index: number, array: Array<Day>) => {
-  if (item.clopenings?.[0]?.type === 'close') {
+  if (item.openingHours?.[0]?.type === 'close') {
     array[index - 1]
-      ? array[index - 1]['clopenings'].push(item.clopenings.shift()!)
-      : array[array.length - 1]['clopenings'].push(item.clopenings.shift()!);
+      ? array[index - 1]['openingHours'].push(item.openingHours.shift()!)
+      : array[array.length - 1]['openingHours'].push(
+          item.openingHours.shift()!
+        );
   }
 };
 
-const buildFormattedOpenHours = (clopenings: Array<Clopening>) => {
-  return clopenings?.map((clopening: Clopening) => {
-    const timeInHours = convertSecondsToHours(clopening.value);
-    return {
-      time: buildTwentyFourTime(timeInHours),
-      twelveHourClock: buildTwelveHourTime(timeInHours),
-    };
-  });
+const buildFormattedOpenHours = (opening: OpeningValue) => {
+  const timeInHours = convertSecondsToHours(opening.value);
+  return {
+    time: buildTwentyFourTime(timeInHours),
+    twelveHourClock: buildTwelveHourTime(timeInHours),
+  };
 };
 
-const weeklyOpeningHours: Array<Day> = data
-  ? Object.entries(data).map((dayOpeningHoursPairs) => {
-      return {
-        day: dayOpeningHoursPairs[0],
-        clopenings: dayOpeningHoursPairs[1],
-      };
-    })
-  : [];
+const weeklyOpeningHours: Array<Day> = Object.entries(data).map(
+  (dayOpeningHoursPairs) => {
+    return {
+      day: dayOpeningHoursPairs[0],
+      openingHours: dayOpeningHoursPairs[1].map((openingHour) => {
+        return {
+          ...buildFormattedOpenHours(openingHour),
+          ...openingHour,
+        };
+      }),
+    };
+  }
+);
 
 weeklyOpeningHours.forEach(moveLateClosings);
 
-const openingHours: Array<ReadableDayInterface> = weeklyOpeningHours
-  ? weeklyOpeningHours.map((dailyOpeningHours: Day) => {
-      return {
-        readableOpeningHours: buildFormattedOpenHours(
-          dailyOpeningHours.clopenings
-        ),
-        ...dailyOpeningHours,
-      };
-    })
-  : [];
-
 const OpeningHours = () => {
   return (
-    <Container>
-      <Card>
-        <Heading>
-          <ExtendedClockIcon />
+    <Styled.Container>
+      <Styled.Card>
+        <Styled.Heading>
+          <Styled.ExtendedClockIcon />
           Opening Hours
-        </Heading>
-        <Schedule openingHours={openingHours} />
-      </Card>
-    </Container>
+        </Styled.Heading>
+        <Schedule openingHours={weeklyOpeningHours} />
+      </Styled.Card>
+    </Styled.Container>
   );
 };
 
