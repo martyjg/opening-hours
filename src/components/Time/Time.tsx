@@ -1,10 +1,10 @@
 type TimeProps = {
   time: string;
-  twelveHourClock: string;
+  twelveHourTime: string;
 };
 
-const Time = ({ time, twelveHourClock }: TimeProps) => {
-  return <time dateTime={time}>{twelveHourClock}</time>;
+const Time = ({ time, twelveHourTime }: TimeProps) => {
+  return <time dateTime={time}>{twelveHourTime}</time>;
 };
 
 export default Time;
