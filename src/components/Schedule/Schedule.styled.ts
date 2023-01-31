@@ -13,6 +13,9 @@ export const ListItem = styled.li`
 
 export const DayText = styled.p`
   font-weight: 700;
+  align-items: center;
+  display: flex;
+  align-self: flex-start;
 `;
 
 interface TimetextProps {

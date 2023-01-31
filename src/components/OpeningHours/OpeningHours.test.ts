@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { convertSecondsToHours, convertDecimalToMinutes, } from './OpeningHours';
+import { convertSecondsToHours, convertDecimalToMinutes, getHoursAndMinutes, convertToTwelveHourTime, getWeekWithMovedLateClosings } from './OpeningHours';
 
 describe('The seconds to hours converter', () => {
   test('seconds are converted to hours', () => {
@@ -30,64 +30,77 @@ describe('The decimals to minutes converter', () => {
     const actual = convertDecimalToMinutes(input);
     expect(actual).toEqual(expected);
   })
-})
+});
 
-// describe('build a twenty four hour time with minutes', () => {
-//   test('15.25 is converted to "15:15"', () => {
-//     const input = 15.25;
-//     const expected = '15:15';
-//     const actual = buildTwentyFourHourTime(input);
-//     expect(actual).toEqual(expected);    
-//   })
-// })
+describe('Takes seconds and rounds to hours and nearest minutes', () => {
+  test('rounds 0 to 0 hours and 0 minutes', () => {
+    const input = 0;
+    const expected = {
+      hours: 0,
+      minutes: 0,
+    };
+    const actual = getHoursAndMinutes(input);
+    expect(actual).toEqual(expected);
+  })
 
-// describe('build a twelve hour time time with minutes', () => {
-//   test('15.25 is converted to "3:15 PM"', () => {
-//     const input = 15.25;
-//     const expected = '3:15\u00A0PM';
-//     const actual = buildTwelveHourTime(input);
-//     expect(actual).toEqual(expected);
-//   });
+  test('rounds 54321 to 15 hours and 6 minutes', () => {
+    const input = 54340;
+    const expected = {
+      hours: 15,
+      minutes: 6,
+    };
+    const actual = getHoursAndMinutes(input);
+    expect(actual).toEqual(expected);
+  })
+});
 
-//   test('23.99 is converted to "11:59 PM"', () => {
-//     const input = 23.99;
-//     const expected = '11:59\u00A0PM';
-//     const actual = buildTwelveHourTime(input);
-//     expect(actual).toEqual(expected);
-//   });
+describe('Convert 24 hour to 12 hour format', () => {
+  test('converts 13 to 1', () => {
+    const input = 13;
+    const expected = 1;
+    const actual = convertToTwelveHourTime(input);
+    expect(actual).toEqual(expected);
+  })
+});
 
-//   test('11.99 is converted to "11:59 AM"', () => {
-//     const input = 11.99;
-//     const expected = '11:59\u00A0AM';
-//     const actual = buildTwelveHourTime(input);
-//     expect(actual).toEqual(expected);
-//   });
-
-//   test('11.9997222222 is converted to "12:00 PM"', () => {
-//     const input = 11.9997222222;
-//     const expected = '12:00\u00A0PM';
-//     const actual = buildTwelveHourTime(input);
-//     expect(actual).toEqual(expected);
-//   });
-
-//   test('23.9997222222 is converted to "12:00 AM"', () => {
-//     const input = 23.9997222222;
-//     const expected = '12:00\u00A0AM';
-//     const actual = buildTwelveHourTime(input);
-//     expect(actual).toEqual(expected);
-//   });
-
-//   test('0 is converted to "12 AM"', () => {
-//     const input = 0;
-//     const expected = '12\u00A0AM';
-//     const actual = buildTwelveHourTime(input);
-//     expect(actual).toEqual(expected);
-//   });
-
-//   test('12 is converted to "12 PM"', () => {
-//     const input = 12;
-//     const expected = '12\u00A0PM';
-//     const actual = buildTwelveHourTime(input);
-//     expect(actual).toEqual(expected);
-//   });
+describe('Moves late closings from actual day to same day of opening', () => {
+  test('moves a late closing back ', () => {
+    const opening = {
+      type: 'open',
+      value: 63600,
+      time: '17:40',
+      twelveHourTime: '5:40\u00A0PM',
+    }
+    const lateClosing = {
+      type: 'close',
+      value: 100,
+      time: '01:40',
+      twelveHourTime: '1:40\u00A0AM',
+    }
+    const input = [
+      {
+        name: 'monday',
+        openingHours: [lateClosing],
+      },
+      {
+        name: 'sunday',
+        openingHours: [opening],
+      },
+    ];
+    const expected = [
+      {
+        name: 'monday',
+        openingHours: [],
+      },
+      {
+        name: 'sunday',
+        openingHours: [
+          opening,
+          lateClosing,
+        ],
+      },
+    ];
+    const actual = getWeekWithMovedLateClosings(input);
+    expect(actual).toEqual(expected);
+  })
 });

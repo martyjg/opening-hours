@@ -1,14 +1,11 @@
-import {
-  Day,
-  OpeningTime,
-} from '../OpeningHours/OpeningHours';
+import { Day, OpeningTime } from '../OpeningHours/OpeningHours';
 import * as Styled from './Schedule.styled';
 import Time from '../Time/Time';
 import HighlightText from '../HighlightText/HighlightText';
 
-type ScheduleProps = {
-  weeklyOpeningHours: Array<Day>;
-};
+interface ScheduleProps {
+  weeklyOpeningHours: Day[];
+}
 
 const adjustDayIndex = (index: number) => (index ? index - 1 : 6);
 

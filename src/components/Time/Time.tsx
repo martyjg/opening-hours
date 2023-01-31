@@ -1,7 +1,7 @@
-type TimeProps = {
+interface TimeProps {
   time: string;
   twelveHourTime: string;
-};
+}
 
 const Time = ({ time, twelveHourTime }: TimeProps) => {
   return <time dateTime={time}>{twelveHourTime}</time>;

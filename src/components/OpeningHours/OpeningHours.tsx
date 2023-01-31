@@ -3,30 +3,27 @@ import * as Styled from './OpeningHours.styled';
 import Schedule from '../Schedule/Schedule';
 
 // TODO:
-// Do an opening hours schema
-// Write more tests
+// Do an opening hours SEO schema
 
-interface OpeningValue {
+export interface OpeningTime {
+  time: string;
+  twelveHourTime: string;
   type: string;
   value: number;
 }
 
-export interface OpeningTime extends OpeningValue {
-  time: string;
-  twelveHourClock: string;
-}
-
 export interface Day {
   name: string;
-  openingHours: Array<OpeningValue | OpeningTime>;
+  openingHours: OpeningTime[];
 }
 
 export const convertSecondsToHours = (value: number) => value / 60 / 60;
 
-export const convertDecimalToMinutes = (value: number) => Math.round(value * 10 * 6);
+export const convertDecimalToMinutes = (value: number) =>
+  Math.round(value * 10 * 6);
 
 export const getHoursAndMinutes = (seconds: number) => {
-  const hoursWithDecimal = convertSecondsToHours(seconds)
+  const hoursWithDecimal = convertSecondsToHours(seconds);
   let hours = Math.trunc(hoursWithDecimal);
   let minutes = convertDecimalToMinutes(hoursWithDecimal - hours);
   if (minutes === 60) {
@@ -36,7 +33,7 @@ export const getHoursAndMinutes = (seconds: number) => {
   if (hours === 24) {
     hours = 0;
   }
-  return { hours, minutes }
+  return { hours, minutes };
 };
 
 export const convertToTwelveHourTime = (hours: number) => {
@@ -49,25 +46,32 @@ export const convertToTwelveHourTime = (hours: number) => {
   return hours;
 };
 
-const moveLateClosings = (day: Day, index: number, array: Array<Day>) => {
-  if (day.openingHours?.[0]?.type === 'close') {
-    array[index - 1]
-      ? array[index - 1]['openingHours'].push(day.openingHours.shift()!)
-      : array[array.length - 1]['openingHours'].push(
-          day.openingHours.shift()!
-        );
-  }
-};
-
 const buildOpenHours = (value: number) => {
   const { hours, minutes } = getHoursAndMinutes(value);
   return {
-    time: `${hours < 10 ? `0${hours}` : hours}:${minutes ? `${minutes < 10 ? `0${minutes}` : minutes}` : '00'}`,
-    twelveHourTime: `${convertToTwelveHourTime(hours)}${minutes ? `:${minutes < 10 ? `0${minutes}` : minutes}` : ''}\u00A0${hours >= 12 ? 'PM' : 'AM'}`,
+    time: `${hours < 10 ? `0${hours}` : hours}:${
+      minutes ? `${minutes < 10 ? `0${minutes}` : minutes}` : '00'
+    }`,
+    twelveHourTime: `${convertToTwelveHourTime(hours)}${
+      minutes ? `:${minutes < 10 ? `0${minutes}` : minutes}` : ''
+    }\u00A0${hours >= 12 ? 'PM' : 'AM'}`,
   };
 };
 
-const weeklyOpeningHours: Array<Day> = Object.entries(data).map(
+const moveLateClosings = (day: Day, index: number, array: Day[]) => {
+  if (day.openingHours?.[0]?.type === 'close') {
+    array[index - 1]
+      ? array[index - 1].openingHours.push(day.openingHours.shift()!)
+      : array[array.length - 1].openingHours.push(day.openingHours.shift()!);
+  }
+};
+
+export const getWeekWithMovedLateClosings = (week: Day[]) => {
+  week.forEach(moveLateClosings);
+  return week;
+};
+
+const weeklyOpeningHours: Day[] = Object.entries(data).map(
   (dayOpeningHoursPairs) => {
     return {
       name: dayOpeningHoursPairs[0],
@@ -81,7 +85,7 @@ const weeklyOpeningHours: Array<Day> = Object.entries(data).map(
   }
 );
 
-weeklyOpeningHours.forEach(moveLateClosings);
+const schedule = getWeekWithMovedLateClosings(weeklyOpeningHours);
 
 const OpeningHours = () => {
   return (
@@ -91,7 +95,7 @@ const OpeningHours = () => {
           <Styled.ExtendedClockIcon />
           Opening Hours
         </Styled.Heading>
-        <Schedule weeklyOpeningHours={weeklyOpeningHours} />
+        <Schedule weeklyOpeningHours={schedule} />
       </Styled.Card>
     </Styled.Container>
   );
