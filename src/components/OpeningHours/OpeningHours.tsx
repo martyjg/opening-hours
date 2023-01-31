@@ -72,17 +72,13 @@ export const getWeekWithMovedLateClosings = (week: Day[]) => {
 };
 
 const weeklyOpeningHours: Day[] = Object.entries(data).map(
-  (dayOpeningHoursPairs) => {
-    return {
-      name: dayOpeningHoursPairs[0],
-      openingHours: dayOpeningHoursPairs[1].map((openingHour) => {
-        return {
-          ...buildOpenHours(openingHour.value),
-          ...openingHour,
-        };
-      }),
-    };
-  }
+  (dayOpeningHoursPairs) => ({
+    name: dayOpeningHoursPairs[0],
+    openingHours: dayOpeningHoursPairs[1].map((openingHour) => ({
+      ...buildOpenHours(openingHour.value),
+      ...openingHour,
+    })),
+  })
 );
 
 const schedule = getWeekWithMovedLateClosings(weeklyOpeningHours);
