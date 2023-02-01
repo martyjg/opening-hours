@@ -1,23 +1,23 @@
 // TODO:
 // Do an opening hours SEO schema
 
-export interface OpeningTime {
+export interface IOpeningTime {
   time: string;
   twelveHourTime: string;
   type: string;
   value: number;
 }
 
-export interface Day {
+export interface IDay {
   name: string;
-  openingHours: OpeningTime[];
+  openingHours: IOpeningTime[];
 }
 
 // If a day in the imported data starts with a closing,
 // then move that closing to the previous day.
 // Therefore closings after midnight are
 // rendered on the same day, following it's corresponding opening.
-const moveLateClosings = (day: Day, index: number, array: Day[]) => {
+const moveLateClosings = (day: IDay, index: number, array: IDay[]) => {
   if (day.openingHours?.[0]?.type === 'close') {
     array[index - 1]
       ? array[index - 1].openingHours.push(day.openingHours.shift()!)
@@ -25,7 +25,7 @@ const moveLateClosings = (day: Day, index: number, array: Day[]) => {
   }
 };
 
-const formatOpeningHours = (week: Day[]) => {
+const formatOpeningHours = (week: IDay[]) => {
   week.forEach(moveLateClosings);
   return week;
 };

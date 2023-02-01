@@ -1,6 +1,6 @@
 import data from '../data.json';
 import buildOpeningHours from '../helpers/buildOpeningHours/buildOpeningHours';
-import formatOpeningHours, { Day } from '../helpers/formatOpeningHours/formatOpeningHours';
+import formatOpeningHours, { IDay } from '../helpers/formatOpeningHours/formatOpeningHours';
 
 enum DayOfTheWeek {
   monday = 'monday',
@@ -17,15 +17,15 @@ enum DayOfTheWeek {
 //   close = 'close'
 // }
 
-interface OpeningHour {
+interface IOpeningHour {
   type: string;
   value: number;
 }
 
-export type OpeningHoursResponse = Partial<Record<DayOfTheWeek, OpeningHour[]>>;
+export type OpeningHoursResponse = Partial<Record<DayOfTheWeek, IOpeningHour[]>>;
 
 // Take the data import and reformat it into an array with various time formats.
-export const deriveWeeklyOpeningHours = (data: OpeningHoursResponse): Day[] => Object.entries(data).map(
+export const deriveWeeklyOpeningHours = (data: OpeningHoursResponse): IDay[] => Object.entries(data).map(
   (dayOpeningHoursPairs) => ({
     name: dayOpeningHoursPairs[0],
     openingHours: Array.isArray(dayOpeningHoursPairs[1]) ? dayOpeningHoursPairs[1].map((openingHour) => ({

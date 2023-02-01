@@ -1,6 +1,6 @@
 import * as Styled from './OpeningHours.styled';
-import useOpeningHours from '../../hooks/useOpeningHours';
 import Schedule from '../Schedule/Schedule';
+import useOpeningHours from '../../hooks/useOpeningHours';
 
 const OpeningHours = () => {
   const openingHours = useOpeningHours();

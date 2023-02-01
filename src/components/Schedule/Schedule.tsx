@@ -1,15 +1,18 @@
-import { Day, OpeningTime } from '../OpeningHours/OpeningHours';
+import {
+  IDay,
+  IOpeningTime,
+} from '../../helpers/formatOpeningHours/formatOpeningHours';
 import * as Styled from './Schedule.styled';
 import Time from '../Time/Time';
 import HighlightText from '../HighlightText/HighlightText';
 
-interface ScheduleProps {
-  weeklyOpeningHours: Day[];
+interface IScheduleProps {
+  weeklyOpeningHours: IDay[];
 }
 
 const adjustDayIndex = (index: number) => (index ? index - 1 : 6);
 
-const Schedule = ({ weeklyOpeningHours }: ScheduleProps) => {
+const Schedule = ({ weeklyOpeningHours }: IScheduleProps) => {
   const dayIndex = new Date().getDay();
   const todayIndex = adjustDayIndex(dayIndex);
 
@@ -25,7 +28,7 @@ const Schedule = ({ weeklyOpeningHours }: ScheduleProps) => {
             {day.openingHours?.length > 0 ? (
               <Styled.TimeText>
                 {day.openingHours.map(
-                  (openingHour: OpeningTime, openingHoursIndex) => {
+                  (openingHour: IOpeningTime, openingHoursIndex) => {
                     return (
                       <span key={openingHoursIndex}>
                         {openingHoursIndex % 2 === 0 ? (

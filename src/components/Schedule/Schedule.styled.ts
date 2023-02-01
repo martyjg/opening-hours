@@ -18,11 +18,11 @@ export const DayText = styled.p`
   align-self: flex-start;
 `;
 
-interface TimetextProps {
+interface ITimetextProps {
   inactive?: boolean;
 }
 
-export const TimeText = styled.p<TimetextProps>`
+export const TimeText = styled.p<ITimetextProps>`
   text-align: right;
   max-width: 50%;
   font-weight: 500;
