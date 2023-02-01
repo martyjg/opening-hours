@@ -36,7 +36,8 @@ export const deriveWeeklyOpeningHours = (data: OpeningHoursResponse): IDay[] => 
 );
 
 const useWeeklyOpeningHours = () => {
-  return formatOpeningHours(deriveWeeklyOpeningHours(data));
+  const week = deriveWeeklyOpeningHours(data);
+  return formatOpeningHours(week);
 };
 
 export default useWeeklyOpeningHours

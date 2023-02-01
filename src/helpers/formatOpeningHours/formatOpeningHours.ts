@@ -25,9 +25,17 @@ const moveLateClosings = (day: IDay, index: number, array: IDay[]) => {
   }
 };
 
+const cloneWeek = (items: IDay[]) => items.map(item => {
+  return {
+    ...item,
+    openingHours: item.openingHours.map((openingHour) => openingHour),
+  }
+});
+
 const formatOpeningHours = (week: IDay[]) => {
-  week.forEach(moveLateClosings);
-  return week;
+  const formattedWeek = cloneWeek(week);
+  formattedWeek.forEach(moveLateClosings);
+  return formattedWeek;
 };
 
 export default formatOpeningHours;
