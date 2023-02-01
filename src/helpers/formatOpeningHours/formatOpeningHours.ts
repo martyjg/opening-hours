@@ -28,10 +28,10 @@ const moveLateClosings = (day: IDay, index: number, array: IDay[]) => {
   }
 };
 
-const cloneWeek = (items: IDay[]) => items.map(item => {
+const cloneWeek = (days: IDay[]) => days.map(day => {
   return {
-    ...item,
-    openingHours: item.openingHours.map((openingHour) => openingHour),
+    ...day,
+    openingHours: day.openingHours.map((openingHour) => openingHour),
   }
 });
 
