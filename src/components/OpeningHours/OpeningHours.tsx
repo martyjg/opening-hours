@@ -66,9 +66,9 @@ const buildOpenHours = (value: number) => {
 };
 
 // If a day in the imported data starts with a closing,
-// then move it that closing the previous day.
+// then move that closing to the previous day.
 // Therefore closings after midnight are
-// rendered on the same day after it's corresponding opening.
+// rendered on the same day, following it's corresponding opening.
 const moveLateClosings = (day: Day, index: number, array: Day[]) => {
   if (day.openingHours?.[0]?.type === 'close') {
     array[index - 1]

@@ -15,21 +15,21 @@ const Schedule = ({ weeklyOpeningHours }: ScheduleProps) => {
 
   return (
     <ol>
-      {weeklyOpeningHours.map((day: Day, index: number) => {
+      {weeklyOpeningHours.map((day, dayIndex) => {
         return (
           <Styled.ListItem key={day.name}>
             <Styled.DayText>
               {day.name}
-              {index === todayIndex && <HighlightText>Today</HighlightText>}
+              {dayIndex === todayIndex && <HighlightText>Today</HighlightText>}
             </Styled.DayText>
             {day.openingHours?.length > 0 ? (
               <Styled.TimeText>
                 {day.openingHours.map(
-                  (openingHour: OpeningTime, index: number) => {
+                  (openingHour: OpeningTime, openingHoursIndex) => {
                     return (
-                      <span key={index}>
-                        {index % 2 === 0 ? (
-                          <>{index > 1 ? ', ' : ''}</>
+                      <span key={openingHoursIndex}>
+                        {openingHoursIndex % 2 === 0 ? (
+                          <>{openingHoursIndex > 1 ? ', ' : ''}</>
                         ) : (
                           <>&nbsp;-&nbsp;</>
                         )}
