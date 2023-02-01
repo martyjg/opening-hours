@@ -1,6 +1,6 @@
-import data from '../data.json';
 import buildOpeningHours from '../helpers/buildOpeningHours/buildOpeningHours';
 import formatOpeningHours, { IOpeningValue } from '../helpers/formatOpeningHours/formatOpeningHours';
+import { useQuery } from '@tanstack/react-query';
 
 enum DayOfTheWeek {
   monday = 'monday',
@@ -25,9 +25,20 @@ export const deriveWeeklyOpeningHours = (data: OpeningHoursData) => Object.entri
   })
 );
 
-const useWeeklyOpeningHours = () => {
-  const week = deriveWeeklyOpeningHours(data);
-  return formatOpeningHours(week);
+const fetchOpeningHours = (): Promise<OpeningHoursData> => {
+  return fetch('data.json').then((response => response.json()))
+}
+
+const useOpeningHours = () => {
+  const { isLoading, error, data } = useQuery({
+    queryKey: ['openingHours'],
+    queryFn: fetchOpeningHours,
+  });
+  return {
+    data: data ? formatOpeningHours(deriveWeeklyOpeningHours(data)) : [],
+    isLoading,
+    error,
+  };
 };
 
-export default useWeeklyOpeningHours
+export default useOpeningHours;

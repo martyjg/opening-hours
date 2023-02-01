@@ -3,7 +3,7 @@ import Schedule from '../Schedule/Schedule';
 import useOpeningHours from '../../hooks/useOpeningHours';
 
 const OpeningHours = () => {
-  const openingHours = useOpeningHours();
+  const { data, isLoading } = useOpeningHours();
 
   return (
     <Styled.Container>
@@ -12,7 +12,7 @@ const OpeningHours = () => {
           <Styled.ExtendedClockIcon />
           Opening Hours
         </Styled.Heading>
-        <Schedule weeklyOpeningHours={openingHours} />
+        {isLoading ? <p>Loading...</p> : <Schedule weeklyOpeningHours={data} />}
         <Styled.CardOverlay />
       </Styled.Card>
     </Styled.Container>
