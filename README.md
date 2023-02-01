@@ -12,17 +12,17 @@ This is an app for displaying opening times for a business.
 ```
 {
   "tuesday": [
-		{
-			type:  "open",
-			value:  61200
-		}
-	],
-	"wednesday": [
-		{
-			type: "close".
-			value: 100
-		}
-	]
+    {
+      type:  "open",
+      value:  61200
+    }
+  ],
+  "wednesday": [
+    {
+      type: "close".
+      value: 100
+    }
+  ]
 }
 ```
 where `value` is the time in seconds since midnight.
