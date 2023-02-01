@@ -19,9 +19,12 @@ export interface Day {
 
 export const convertSecondsToHours = (value: number) => value / 60 / 60;
 
+// Given a decimal value between 0 and 1, return it expressed
+// between 0 and 60 and rounded to the nearest minute.
 export const convertDecimalToMinutes = (value: number) =>
   Math.round(value * 10 * 6);
 
+// Given a number of seconds, return it in hours and minutes.
 export const getHoursAndMinutes = (seconds: number) => {
   const hoursWithDecimal = convertSecondsToHours(seconds);
   let hours = Math.trunc(hoursWithDecimal);
@@ -36,6 +39,8 @@ export const getHoursAndMinutes = (seconds: number) => {
   return { hours, minutes };
 };
 
+// Given an hour between 0 and 24, return it to between 0 and 12 according
+// as 12-hour clock form.
 export const convertToTwelveHourTime = (hours: number) => {
   if (hours < 1) {
     return hours + 12;
@@ -46,6 +51,8 @@ export const convertToTwelveHourTime = (hours: number) => {
   return hours;
 };
 
+// Give a number of seconds after midnight,
+// return a string for 24-hour clock and a string for 12-hour clock.
 const buildOpenHours = (value: number) => {
   const { hours, minutes } = getHoursAndMinutes(value);
   return {
@@ -58,6 +65,10 @@ const buildOpenHours = (value: number) => {
   };
 };
 
+// If a day in the imported data starts with a closing,
+// then move it that closing the previous day.
+// Therefore closings after midnight are
+// rendered on the same day after it's corresponding opening.
 const moveLateClosings = (day: Day, index: number, array: Day[]) => {
   if (day.openingHours?.[0]?.type === 'close') {
     array[index - 1]
@@ -71,6 +82,7 @@ export const getWeekWithMovedLateClosings = (week: Day[]) => {
   return week;
 };
 
+// Take the data import and reformat it into an array with various time formats.
 const weeklyOpeningHours: Day[] = Object.entries(data).map(
   (dayOpeningHoursPairs) => ({
     name: dayOpeningHoursPairs[0],
