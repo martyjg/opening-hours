@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest';
-import { convertSecondsToHours, convertDecimalToMinutes, getHoursAndMinutes, convertToTwelveHourTime, getWeekWithMovedLateClosings } from './OpeningHours';
+import formatOpeningHours,  { convertSecondsToHours, convertDecimalToMinutes, getHoursAndMinutes, convertToTwelveHourTime } from './formatOpeningHours';
 
 describe('The seconds to hours converter', () => {
   test('seconds are converted to hours', () => {
@@ -100,7 +100,7 @@ describe('Moves late closings from actual day to same day of opening', () => {
         ],
       },
     ];
-    const actual = getWeekWithMovedLateClosings(input);
+    const actual = formatOpeningHours(input);
     expect(actual).toEqual(expected);
   })
 });
