@@ -1,18 +1,3 @@
-// TODO:
-// Do an opening hours SEO schema
-
-export interface OpeningTime {
-  time: string;
-  twelveHourTime: string;
-  type: string;
-  value: number;
-}
-
-export interface Day {
-  name: string;
-  openingHours: OpeningTime[];
-}
-
 export const convertSecondsToHours = (value: number) => value / 60 / 60;
 
 // Given a decimal value between 0 and 1, return it expressed
@@ -23,16 +8,22 @@ export const convertDecimalToMinutes = (value: number) =>
 // Given a number of seconds, return it in hours and minutes.
 export const getHoursAndMinutes = (seconds: number) => {
   const hoursWithDecimal = convertSecondsToHours(seconds);
-  let hours = Math.trunc(hoursWithDecimal);
-  let minutes = convertDecimalToMinutes(hoursWithDecimal - hours);
+  const hours = Math.trunc(hoursWithDecimal);
+  const minutes = convertDecimalToMinutes(hoursWithDecimal - hours);
   if (minutes === 60) {
-    hours = hours + 1;
-    minutes = 0;
+    return {
+      hours: hours + 1,
+      minutes: 0
+    }
   }
   if (hours === 24) {
-    hours = 0;
+    return {
+      hours: 0,
+      minutes
+    }
   }
   return { hours, minutes };
+
 };
 
 // Given an hour between 0 and 24, return it to between 0 and 12 according
@@ -49,7 +40,7 @@ export const convertToTwelveHourTime = (hours: number) => {
 
 // Give a number of seconds after midnight,
 // return a string for 24-hour clock and a string for 12-hour clock.
-export const buildOpenHours = (value: number) => {
+const buildOpeningHours = (value: number) => {
   const { hours, minutes } = getHoursAndMinutes(value);
   return {
     time: `${hours < 10 ? `0${hours}` : hours}:${
@@ -61,21 +52,4 @@ export const buildOpenHours = (value: number) => {
   };
 };
 
-// If a day in the imported data starts with a closing,
-// then move that closing to the previous day.
-// Therefore closings after midnight are
-// rendered on the same day, following it's corresponding opening.
-const moveLateClosings = (day: Day, index: number, array: Day[]) => {
-  if (day.openingHours?.[0]?.type === 'close') {
-    array[index - 1]
-      ? array[index - 1].openingHours.push(day.openingHours.shift()!)
-      : array[array.length - 1].openingHours.push(day.openingHours.shift()!);
-  }
-};
-
-const formatOpeningHours = (week: Day[]) => {
-  week.forEach(moveLateClosings);
-  return week;
-};
-
-export default formatOpeningHours;
+export default buildOpeningHours;
