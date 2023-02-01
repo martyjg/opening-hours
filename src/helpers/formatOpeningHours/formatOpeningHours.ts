@@ -1,11 +1,14 @@
 // TODO:
 // Do an opening hours SEO schema
 
-export interface IOpeningTime {
-  time: string;
-  twelveHourTime: string;
+export interface IOpeningValue {
   type: string;
   value: number;
+}
+
+export interface IOpeningTime extends IOpeningValue {
+  time: string;
+  twelveHourTime: string;
 }
 
 export interface IDay {
