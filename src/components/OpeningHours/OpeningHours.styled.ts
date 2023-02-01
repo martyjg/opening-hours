@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ClockIcon from '../Icons/ClockIcon';
-import { SIZES } from '../../styles/variables';
+import { SPACINGS, SIZES } from '../../styles/variables';
 
 export const Container = styled.div`
   min-height: 100vh;
@@ -19,13 +19,13 @@ export const Card = styled.div`
     rgba(0, 0, 0, 0.3) 0px 7px 13px -3px, rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
 `;
 export const Heading = styled.h1`
-  font-size: ${SIZES.xl};
+  font-size: ${SIZES.l};
   display: flex;
   align-items: center;
   margin-bottom: 0.8rem;
 `;
 
 export const ExtendedClockIcon = styled(ClockIcon)`
-  margin-right: 0.75rem;
+  margin-right: ${SPACINGS.TIGHT};
   color: var(--typography-inactive);
 `;
