@@ -42,13 +42,14 @@ export const convertToTwelveHourTime = (hours: number) => {
 // return a string for 24-hour clock and a string for 12-hour clock.
 const buildOpeningHours = (value: number) => {
   const { hours, minutes } = getHoursAndMinutes(value);
+  const hoursInTwentyFourHour = hours < 10 ? `0${hours}` : hours;
+  const hoursInTwelveHour = convertToTwelveHourTime(hours);
+  const minutesInTwentyFourHour = minutes ? `${minutes < 10 ? `0${minutes}` : minutes}` : '00';  
+  const minutesInTwelveHour = minutes ? `:${minutes < 10 ? `0${minutes}` : minutes}` : '';
+  
   return {
-    time: `${hours < 10 ? `0${hours}` : hours}:${
-      minutes ? `${minutes < 10 ? `0${minutes}` : minutes}` : '00'
-    }`,
-    twelveHourTime: `${convertToTwelveHourTime(hours)}${
-      minutes ? `:${minutes < 10 ? `0${minutes}` : minutes}` : ''
-    }\u00A0${hours >= 12 ? 'PM' : 'AM'}`,
+    time: `${hoursInTwentyFourHour}:${minutesInTwentyFourHour}`,
+    twelveHourTime: `${hoursInTwelveHour}${minutesInTwelveHour}\u00A0${hours >= 12 ? 'PM' : 'AM'}`,
   };
 };
 
