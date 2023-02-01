@@ -10,11 +10,11 @@ interface IScheduleProps {
   weeklyOpeningHours: IDay[];
 }
 
-const adjustDayIndex = (index: number) => (index ? index - 1 : 6);
-
+// 1. Date object index Sunday as the first day of the week.
+// 2. This is adjusted to suit our data where Monday is the first day.
 const Schedule = ({ weeklyOpeningHours }: IScheduleProps) => {
-  const dayIndex = new Date().getDay();
-  const todayIndex = adjustDayIndex(dayIndex);
+  const todayIndex = new Date().getDay(); /* 1 */
+  const adjustedTodayIndex = todayIndex ? todayIndex - 1 : 6; /* 2 */
 
   return (
     <ol>
@@ -23,7 +23,9 @@ const Schedule = ({ weeklyOpeningHours }: IScheduleProps) => {
           <Styled.ListItem key={day.name}>
             <Styled.DayText>
               {day.name}
-              {dayIndex === todayIndex && <HighlightText>Today</HighlightText>}
+              {dayIndex === adjustedTodayIndex && (
+                <HighlightText>Today</HighlightText>
+              )}
             </Styled.DayText>
             {day.openingHours?.length > 0 ? (
               <Styled.TimeText>
