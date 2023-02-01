@@ -11,7 +11,7 @@ This is an app for displaying opening times for a business.
 - It takes data in this format:
 ```
 {
-	"tuesday": [
+  "tuesday": [
 		{
 			type:  "open",
 			value:  61200
