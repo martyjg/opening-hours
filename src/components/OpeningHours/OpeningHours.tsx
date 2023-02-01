@@ -82,20 +82,20 @@ export const getWeekWithMovedLateClosings = (week: Day[]) => {
   return week;
 };
 
-// Take the data import and reformat it into an array with various time formats.
-const weeklyOpeningHours: Day[] = Object.entries(data).map(
-  (dayOpeningHoursPairs) => ({
-    name: dayOpeningHoursPairs[0],
-    openingHours: dayOpeningHoursPairs[1].map((openingHour) => ({
-      ...buildOpenHours(openingHour.value),
-      ...openingHour,
-    })),
-  })
-);
-
-const schedule = getWeekWithMovedLateClosings(weeklyOpeningHours);
-
 const OpeningHours = () => {
+  // Take the data import and reformat it into an array with various time formats.
+  const weeklyOpeningHours: Day[] = Object.entries(data).map(
+    (dayOpeningHoursPairs) => ({
+      name: dayOpeningHoursPairs[0],
+      openingHours: dayOpeningHoursPairs[1].map((openingHour) => ({
+        ...buildOpenHours(openingHour.value),
+        ...openingHour,
+      })),
+    })
+  );
+
+  const schedule = getWeekWithMovedLateClosings(weeklyOpeningHours);
+
   return (
     <Styled.Container>
       <Styled.Card>
