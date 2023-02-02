@@ -13,6 +13,7 @@ const OpeningHours = () => {
           Opening Hours
         </Styled.Heading>
         <Schedule weeklyOpeningHours={openingHours} />
+        <Styled.CardOverlay />
       </Styled.Card>
     </Styled.Container>
   );
