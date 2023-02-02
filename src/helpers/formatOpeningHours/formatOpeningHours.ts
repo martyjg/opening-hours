@@ -1,8 +1,5 @@
-// TODO:
-// Do an opening hours SEO schema
-
 export interface IOpeningValue {
-  type: string;
+  type: 'open' | 'close';
   value: number;
 }
 
@@ -28,12 +25,13 @@ const moveLateClosings = (day: IDay, index: number, array: IDay[]) => {
   }
 };
 
-const cloneWeek = (days: IDay[]) => days.map(day => {
-  return {
-    ...day,
-    openingHours: day.openingHours.map((openingHour) => openingHour),
-  }
-});
+const cloneWeek = (days: IDay[]) =>
+  days.map((day) => {
+    return {
+      ...day,
+      openingHours: day.openingHours.map((openingHour) => openingHour),
+    };
+  });
 
 const formatOpeningHours = (week: IDay[]) => {
   const formattedWeek = cloneWeek(week);
