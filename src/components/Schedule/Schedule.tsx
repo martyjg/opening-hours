@@ -1,24 +1,22 @@
-import {
-  IDay,
-  IOpeningTime,
-} from '../../helpers/formatOpeningHours/formatOpeningHours';
+import { IOpeningTime } from '../../helpers/formatOpeningHours/formatOpeningHours';
 import * as Styled from './Schedule.styled';
 import Time from '../Time/Time';
 import HighlightText from '../HighlightText/HighlightText';
-
-interface IScheduleProps {
-  weeklyOpeningHours: IDay[];
-}
+import useOpeningHours from '../../hooks/useOpeningHours';
 
 // 1. Date object index Sunday as the first day of the week.
 // 2. This is adjusted to suit our data where Monday is the first day.
-const Schedule = ({ weeklyOpeningHours }: IScheduleProps) => {
+const Schedule = () => {
+  const { data, isLoading, error } = useOpeningHours();
   const todayIndex = new Date().getDay(); /* 1 */
   const adjustedTodayIndex = todayIndex ? todayIndex - 1 : 6; /* 2 */
 
+  if (isLoading) return <p>Loading...</p>;
+  if (error) return <p>Something went wrong.</p>;
+
   return (
     <ol>
-      {weeklyOpeningHours.map((day, dayIndex) => {
+      {data.map((day, dayIndex) => {
         return (
           <Styled.ListItem key={day.name}>
             <Styled.DayText>

@@ -37,6 +37,11 @@ const useOpeningHours = () => {
     queryKey: ['openingHours'],
     queryFn: fetchOpeningHours,
   });
+
+  if (error) {
+    console.error(error);
+  }
+
   return {
     data: data ? formatOpeningHours(deriveWeeklyOpeningHours(data)) : [],
     isLoading,
