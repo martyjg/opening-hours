@@ -54,8 +54,8 @@ export const CardOverlay = styled.div`
   border-radius: 15px;
   background-color: var(--background-highlight);
   animation-name: ${fadeOut};
-  animation-duration: 0.6s;
-  animation-delay: 0.5s;
+  animation-duration: 0.4s;
+  animation-delay: 0.3s;
   animation-iteration-count: 1;
   animation-timing-function: ease-in;
   animation-fill-mode: forwards;
