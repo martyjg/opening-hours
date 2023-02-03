@@ -3,7 +3,7 @@ import Schedule from '../Schedule/Schedule';
 
 const OpeningHours = () => {
   return (
-    <Styled.Container>
+    <Styled.Container itemScope itemType='https://schema.org/Restaurant'>
       <Styled.Card>
         <Styled.HeadingContainer>
           <Styled.ExtendedClockIcon />

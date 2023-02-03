@@ -6,6 +6,7 @@ import useOpeningHours from '../../hooks/useOpeningHours';
 
 // 1. Date object index Sunday as the first day of the week.
 // 2. This is adjusted to suit our data where Monday is the first day.
+// 3. Build a string to render opening hours in schema format https://schema.org/openingHours for SEO purposes.
 const Schedule = () => {
   const { data, isLoading, error } = useOpeningHours();
   const todayIndex = new Date().getDay(); /* 1 */
@@ -17,8 +18,27 @@ const Schedule = () => {
   return (
     <ol>
       {data.map((day, dayIndex) => {
+        const metaContent = day.openingHours /* 3 */
+          .map((openingHour: IOpeningTime, openingHoursIndex) => {
+            return `${
+              openingHoursIndex % 2 === 0
+                ? openingHoursIndex > 1
+                  ? ', '
+                  : ''
+                : '-'
+            }${openingHour.time}`;
+          })
+          .join('');
         return (
           <Styled.ListItem key={day.name}>
+            {metaContent && (
+              <meta
+                itemProp='openingHours'
+                content={`${day.name[0].toUpperCase()}${
+                  day.name[1]
+                } ${metaContent}`}
+              ></meta>
+            )}
             <Styled.DayText>
               {day.name}
               {dayIndex === adjustedTodayIndex && (
