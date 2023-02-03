@@ -5,10 +5,10 @@ const OpeningHours = () => {
   return (
     <Styled.Container>
       <Styled.Card>
-        <Styled.Heading>
+        <Styled.HeadingContainer>
           <Styled.ExtendedClockIcon />
-          Opening Hours
-        </Styled.Heading>
+          <Styled.Heading>Opening Hours</Styled.Heading>
+        </Styled.HeadingContainer>
         <Schedule />
         <Styled.CardOverlay />
       </Styled.Card>

@@ -61,11 +61,14 @@ export const CardOverlay = styled.div`
   animation-fill-mode: forwards;
 `;
 
-export const Heading = styled.h1`
-  font-size: ${SIZES.l};
+export const HeadingContainer = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 0.8rem;
+`;
+
+export const Heading = styled.h1`
+  font-size: ${SIZES.l};
 `;
 
 export const ExtendedClockIcon = styled(ClockIcon)`
