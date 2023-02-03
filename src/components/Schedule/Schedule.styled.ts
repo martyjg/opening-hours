@@ -25,6 +25,5 @@ interface ITimetextProps {
 export const TimeText = styled.p<ITimetextProps>`
   text-align: right;
   max-width: 50%;
-  font-weight: 500;
   color: ${(props) => (props.inactive ? 'var(--typography-inactive)' : '')};
 `;
