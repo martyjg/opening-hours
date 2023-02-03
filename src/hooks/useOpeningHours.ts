@@ -5,13 +5,13 @@ import formatOpeningHours, {
 import { useQuery } from '@tanstack/react-query';
 
 enum DayOfTheWeek {
-  monday = 'monday',
-  tuesday = 'tuesday',
-  wednesday = 'wednesday',
-  thursday = 'thursday',
-  friday = 'friday',
-  saturday = 'saturday',
-  sunday = 'sunday',
+  Monday = 'monday',
+  Tuesday = 'tuesday',
+  Wednesday = 'wednesday',
+  Thursday = 'thursday',
+  Friday = 'friday',
+  Saturday = 'saturday',
+  Sunday = 'sunday',
 }
 
 export type OpeningHoursData = Partial<Record<DayOfTheWeek, IOpeningValue[]>>;

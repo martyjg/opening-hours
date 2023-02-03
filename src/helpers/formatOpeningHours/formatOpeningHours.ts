@@ -1,5 +1,10 @@
+export enum OpeningType {
+  Open = 'open',
+  Close = 'close',
+}
+
 export interface IOpeningValue {
-  type: 'open' | 'close';
+  type: OpeningType;
   value: number;
 }
 
