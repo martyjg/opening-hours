@@ -11,7 +11,7 @@ pnpm test
 ```
 
 ## What is this?
-This is an app for displaying opening times for a business.
+This is an app for displaying opening times for a restaurant.
 - It takes data in this format:
 ```
 {

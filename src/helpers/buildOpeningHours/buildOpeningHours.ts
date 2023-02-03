@@ -13,17 +13,16 @@ export const getHoursAndMinutes = (seconds: number) => {
   if (minutes === 60) {
     return {
       hours: hours + 1,
-      minutes: 0
-    }
+      minutes: 0,
+    };
   }
   if (hours === 24) {
     return {
       hours: 0,
-      minutes
-    }
+      minutes,
+    };
   }
   return { hours, minutes };
-
 };
 
 // Given an hour between 0 and 24, return it to between 0 and 12 according
@@ -44,12 +43,18 @@ const buildOpeningHours = (value: number) => {
   const { hours, minutes } = getHoursAndMinutes(value);
   const hoursInTwentyFourHour = hours < 10 ? `0${hours}` : hours;
   const hoursInTwelveHour = convertToTwelveHourTime(hours);
-  const minutesInTwentyFourHour = minutes ? `${minutes < 10 ? `0${minutes}` : minutes}` : '00';  
-  const minutesInTwelveHour = minutes ? `:${minutes < 10 ? `0${minutes}` : minutes}` : '';
-  
+  const minutesInTwentyFourHour = minutes
+    ? `${minutes < 10 ? `0${minutes}` : minutes}`
+    : '00';
+  const minutesInTwelveHour = minutes
+    ? `:${minutes < 10 ? `0${minutes}` : minutes}`
+    : '';
+
   return {
     time: `${hoursInTwentyFourHour}:${minutesInTwentyFourHour}`,
-    twelveHourTime: `${hoursInTwelveHour}${minutesInTwelveHour}\u00A0${hours >= 12 ? 'PM' : 'AM'}`,
+    twelveHourTime: `${hoursInTwelveHour}${minutesInTwelveHour}\u00A0${
+      hours >= 12 ? 'PM' : 'AM'
+    }`,
   };
 };
 

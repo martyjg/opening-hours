@@ -1,6 +1,11 @@
 import { describe, expect, test } from 'vitest';
 
-import { convertSecondsToHours, convertDecimalToMinutes, getHoursAndMinutes, convertToTwelveHourTime } from './buildOpeningHours'
+import {
+  convertSecondsToHours,
+  convertDecimalToMinutes,
+  getHoursAndMinutes,
+  convertToTwelveHourTime,
+} from './buildOpeningHours';
 
 describe('The seconds to hours converter', () => {
   test('seconds are converted to hours', () => {
@@ -24,13 +29,13 @@ describe('The decimals to minutes converter', () => {
     const expected = 0;
     const actual = convertDecimalToMinutes(input);
     expect(actual).toEqual(expected);
-  })
+  });
   test('converts 0.25 to 15', () => {
     const input = 0.25;
     const expected = 15;
     const actual = convertDecimalToMinutes(input);
     expect(actual).toEqual(expected);
-  })
+  });
 });
 
 describe('Takes seconds and rounds to hours and nearest minutes', () => {
@@ -42,7 +47,7 @@ describe('Takes seconds and rounds to hours and nearest minutes', () => {
     };
     const actual = getHoursAndMinutes(input);
     expect(actual).toEqual(expected);
-  })
+  });
 
   test('rounds 54321 to 15 hours and 6 minutes', () => {
     const input = 54340;
@@ -52,7 +57,7 @@ describe('Takes seconds and rounds to hours and nearest minutes', () => {
     };
     const actual = getHoursAndMinutes(input);
     expect(actual).toEqual(expected);
-  })
+  });
 });
 
 describe('Convert 24 hour to 12 hour format', () => {
@@ -61,5 +66,5 @@ describe('Convert 24 hour to 12 hour format', () => {
     const expected = 1;
     const actual = convertToTwelveHourTime(input);
     expect(actual).toEqual(expected);
-  })
+  });
 });
