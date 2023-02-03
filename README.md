@@ -5,6 +5,10 @@
 pnpm install
 pnpm dev
 ```
+## Testing
+```
+pnpm test
+```
 
 ## What is this?
 This is an app for displaying opening times for a business.
