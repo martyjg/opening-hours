@@ -2,9 +2,7 @@
   "monday": [],
   "tuesday": [
     { "type": "open", "value": 36000 },
-    { "type": "close", "value": 64800 },
-    { "type": "open", "value": 68400 },
-    { "type": "close", "value": 73800 }
+    { "type": "close", "value": 64800 }
   ],
   "wednesday": [],
   "thursday": [
