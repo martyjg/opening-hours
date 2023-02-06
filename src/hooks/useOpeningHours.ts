@@ -40,8 +40,6 @@ const useOpeningHours = () => {
     queryFn: fetchOpeningHours,
   });
 
-  console.log('data: ', data);
-
   if (error) {
     console.error(error);
   }
