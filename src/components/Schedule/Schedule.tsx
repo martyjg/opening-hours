@@ -33,6 +33,7 @@ const Schedule = () => {
           <Styled.ListItem key={day.name}>
             {metaContent && (
               <meta
+                data-testid='meta-content'
                 itemProp='openingHours'
                 content={`${day.name[0].toUpperCase()}${
                   day.name[1]
@@ -46,7 +47,7 @@ const Schedule = () => {
               )}
             </Styled.DayText>
             {day.openingHours?.length > 0 ? (
-              <Styled.TimeText>
+              <Styled.TimeText id='testing'>
                 {day.openingHours.map(
                   (openingHour: IOpeningTime, openingHoursIndex) => {
                     return (

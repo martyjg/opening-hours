@@ -3,6 +3,8 @@ import formatOpeningHours, {
   IOpeningValue,
 } from '../helpers/formatOpeningHours/formatOpeningHours';
 import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { BASE_URL } from '../constants';
 
 enum DayOfTheWeek {
   Monday = 'monday',
@@ -29,14 +31,16 @@ export const deriveWeeklyOpeningHours = (data: OpeningHoursData) =>
   }));
 
 const fetchOpeningHours = (): Promise<OpeningHoursData> => {
-  return fetch('data.json').then((response) => response.json());
+  return axios(`${BASE_URL}/data.json`).then((response) => response.data);
 };
 
 const useOpeningHours = () => {
-  const { isLoading, error, data } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ['openingHours'],
     queryFn: fetchOpeningHours,
   });
+
+  console.log('data: ', data);
 
   if (error) {
     console.error(error);
